@@ -88,14 +88,16 @@ def patched_get_site_by_id(self, site_id):
 
 def patched_get_site_by_request(self, request):
     """
-    Monkey patched version of Django's SiteManager._get_site_by_request() function.
+    Monkey patched version of Django's SiteManager._get_site_by_request()
+    function.
 
-    Adds a configurable timeout to the in-memory SITE_CACHE for each cached Site.
-    This allows for the use of an in-memory cache for Site models, avoiding one
-    or more DB hits on every request made to the Django application, but also allows
-    for changes made to models associated with the Site model and accessed via the
-    Site model's relationship accessors to take effect without having to manual
-    recycle all Django worker processes active in an application environment.
+    Adds a configurable timeout to the in-memory SITE_CACHE for each
+    cached Site. This allows for the use of an in-memory cache for Site
+    models, avoiding one or more DB hits on every request made to the
+    Django application, but also allows for changes made to models
+    associated with the Site model and accessed via the Site model's
+    relationship accessors to take effect without having to manual recycle
+    all Django worker processes active in an application environment.
     """
     host = request.get_host()
     now = datetime.datetime.utcnow()

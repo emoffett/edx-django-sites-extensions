@@ -23,10 +23,10 @@ class RedirectMiddleware(MiddlewareMixin):
         redirects = cache.get(cache_key)
         if redirects is None:
             redirects = {
-                redirect.old_path: \
+                redirect.old_path: 
                     redirect.new_path for redirect in Redirect.objects.filter(
-                    site=site
-                )
+                        site=site
+                    )
             }
             cache.set(cache_key, redirects, settings.REDIRECT_CACHE_TIMEOUT)
         redirect_to = redirects.get(request.path)

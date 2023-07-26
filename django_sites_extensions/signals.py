@@ -13,9 +13,7 @@ if 'django.contrib.redirects' in settings.INSTALLED_APPS:
 
     @receiver(post_delete, sender=Redirect)
     @receiver(post_save, sender=Redirect)
-    def clear_redirect_cache(
-            sender, instance, **kwargs
-        ):  # pylint: disable=unused-argument
+    def clear_redirect_cache(sender, instance, **kwargs):
         """
         Clears the Redirect cache
         """
