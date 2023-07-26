@@ -16,7 +16,7 @@ class RedirectMiddlewareTestCase(TestCase):
 
     def setUp(self):
         super().setUp()
-        
+
         def dummy_get_response(request):  # pragma: no cover
             return None
         self.middleware = RedirectMiddleware(dummy_get_response)

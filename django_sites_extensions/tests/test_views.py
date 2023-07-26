@@ -30,7 +30,10 @@ class ViewsTestCase(TestCase):
         with self.assertNumQueries(3):
             response = self.client.get(self.home_url)
             self.assertRedirects(
-                response, self.login_url, status_code=301, target_status_code=200
+                response,
+                self.login_url,
+                status_code=301,
+                target_status_code=200
             )
 
         # checking cache with complete redirect

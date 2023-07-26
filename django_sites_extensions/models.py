@@ -1,9 +1,9 @@
 """ Django Sites framework models overrides """
 import datetime
 
-# We import models as a whole here so that 
+# We import models as a whole here so that
 # we can reference models.SITE_CACHE indirectly.
-# When the cache is cleared, that variable gets reassigned, 
+# When the cache is cleared, that variable gets reassigned,
 # and we want to notice that.
 from django.contrib.sites import models
 
@@ -21,7 +21,7 @@ def get_site_cache_ttl():
     """
     Get the SITE_CACHE_TTL timedelta.
 
-    Defaults to 5 minutes if SITE_CACHE_TTL has not 
+    Defaults to 5 minutes if SITE_CACHE_TTL has not
     been configured in application settings.
     """
     # Imported here to avoid circular import
@@ -43,12 +43,16 @@ def patched_get_current(self, request=None):
     from django.conf import settings  # pylint: disable=import-outside-toplevel
     if request:
         try:
-            return self._get_site_by_request(request)  # pylint: disable=protected-access
+            return self._get_site_by_request(
+                request
+            )  # pylint: disable=protected-access
         except Site.DoesNotExist:
             pass
 
     if getattr(settings, 'SITE_ID', ''):
-        return self._get_site_by_id(settings.SITE_ID)  # pylint: disable=protected-access
+        return self._get_site_by_id(
+            settings.SITE_ID
+        )  # pylint: disable=protected-access
 
     raise ImproperlyConfigured(
         "You're using the Django \"sites framework\" without having "
@@ -60,14 +64,17 @@ def patched_get_current(self, request=None):
 
 def patched_get_site_by_id(self, site_id):
     """
-    Monkey patched version of Django's SiteManager._get_site_by_id() function.
+    Monkey patched version of Django's SiteManager._get_site_by_id()
+    function.
 
-    Adds a configurable timeout to the in-memory SITE_CACHE for each cached Site.
-    This allows for the use of an in-memory cache for Site models, avoiding one
-    or more DB hits on every request made to the Django application, but also allows
-    for changes made to models associated with the Site model and accessed via the
-    Site model's relationship accessors to take effect without having to manual
-    recycle all Django worker processes active in an application environment.
+    Adds a configurable timeout to the in-memory SITE_CACHE for each
+    cached Site. This allows for the use of an in-memory cache for Site
+    models, avoiding one or more DB hits on every request made to the
+    Django application, but also allows for changes made to models
+    associated with the Site model and accessed via the Site model's
+    relationship accessors to take effect without having to manual
+    recycle all Django worker processes active in an application
+    environment.
     """
     now = datetime.datetime.utcnow()
     site = models.SITE_CACHE.get(site_id)
