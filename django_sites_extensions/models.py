@@ -1,8 +1,10 @@
 """ Django Sites framework models overrides """
 import datetime
 
-# We import models as a whole here so that we can reference models.SITE_CACHE indirectly.
-# When the cache is cleared, that variable gets reassigned, and we want to notice that.
+# We import models as a whole here so that 
+# we can reference models.SITE_CACHE indirectly.
+# When the cache is cleared, that variable gets reassigned, 
+# and we want to notice that.
 from django.contrib.sites import models
 
 from django.contrib.sites.models import Site, SiteManager
@@ -19,7 +21,8 @@ def get_site_cache_ttl():
     """
     Get the SITE_CACHE_TTL timedelta.
 
-    Defaults to 5 minutes if SITE_CACHE_TTL has not been configured in application settings.
+    Defaults to 5 minutes if SITE_CACHE_TTL has not 
+    been configured in application settings.
     """
     # Imported here to avoid circular import
     from django.conf import settings  # pylint: disable=import-outside-toplevel
@@ -99,5 +102,7 @@ def patched_get_site_by_request(self, request):
 
 
 SiteManager.get_current = patched_get_current
-SiteManager._get_site_by_id = patched_get_site_by_id  # pylint: disable=protected-access
-SiteManager._get_site_by_request = patched_get_site_by_request  # pylint: disable=protected-access
+SiteManager._get_site_by_id = \
+    patched_get_site_by_id  # pylint: disable=protected-access
+SiteManager._get_site_by_request = \
+    patched_get_site_by_request  # pylint: disable=protected-access

@@ -12,3 +12,4 @@ pep8
 pytest-cov
 pytest-django
 twine
+pycodestyle

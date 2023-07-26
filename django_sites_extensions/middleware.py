@@ -10,7 +10,8 @@ from django.utils.deprecation import MiddlewareMixin
 
 class RedirectMiddleware(MiddlewareMixin):
     """
-    Redirects requests for URLs persisted using the django.contrib.redirects.models.Redirect model.
+    Redirects requests for URLs persisted using the 
+    django.contrib.redirects.models.Redirect model.
     """
     def process_request(self, request):
         """
@@ -21,7 +22,11 @@ class RedirectMiddleware(MiddlewareMixin):
         cache_key = f'{settings.REDIRECT_CACHE_KEY_PREFIX}-{site.domain}'
         redirects = cache.get(cache_key)
         if redirects is None:
-            redirects = {redirect.old_path: redirect.new_path for redirect in Redirect.objects.filter(site=site)}
+            redirects = {
+                redirect.old_path: redirect.new_path for redirect in Redirect.objects.filter(
+                    site=site
+                )
+            }
             cache.set(cache_key, redirects, settings.REDIRECT_CACHE_TIMEOUT)
         redirect_to = redirects.get(request.path)
         if redirect_to:

@@ -16,11 +16,16 @@ class RedirectMiddlewareTestCase(TestCase):
 
     def setUp(self):
         super().setUp()
+        
         def dummy_get_response(request):  # pragma: no cover
             return None
         self.middleware = RedirectMiddleware(dummy_get_response)
         self.site = Site.objects.get(id=1)  # pylint: disable=no-member
-        self.redirect = Redirect.objects.create(site_id=1, old_path='/foo', new_path='http://example.com/bar')
+        self.redirect = Redirect.objects.create(
+            site_id=1,
+            old_path='/foo',
+            new_path='http://example.com/bar'
+        )
 
     def _make_request(self, path):
         """ Creates an HttpRequest """
@@ -36,7 +41,9 @@ class RedirectMiddlewareTestCase(TestCase):
         request = self._make_request('/foo')
         response = self.middleware.process_request(request)
         self.assertEqual(response.status_code, 301)
-        self.assertTrue(isinstance(response, HttpResponsePermanentRedirect))
+        self.assertTrue(
+            isinstance(response, HttpResponsePermanentRedirect)
+        )
         self.assertEqual(response.get('location'), self.redirect.new_path)
 
     def test_normal_url(self):
