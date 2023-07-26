@@ -175,3 +175,4 @@ zipp==3.16.2
     # via
     #   importlib-metadata
     #   importlib-resources
+pycodestyle==2.10.0
