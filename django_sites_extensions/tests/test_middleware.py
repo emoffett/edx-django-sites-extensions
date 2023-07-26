@@ -16,7 +16,9 @@ class RedirectMiddlewareTestCase(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.middleware = RedirectMiddleware(self.mock_response)
+        def dummy_get_response(request):  # pragma: no cover
+            return None
+        self.middleware = RedirectMiddleware(dummy_get_response)
         self.site = Site.objects.get(id=1)  # pylint: disable=no-member
         self.redirect = Redirect.objects.create(site_id=1, old_path='/foo', new_path='http://example.com/bar')
 
